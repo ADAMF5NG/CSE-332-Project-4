@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../css/index.css">
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../d3/d3.v7.js" ></script>
+    <script type="module" src="./corMatrix.js"></script>
+    <script type="module" src="./scatterMatrix.js"></script>
+    <script type="module" src="./parallelCoords.js"></script> 
+    <script type="module" src="./PCA.js"></script> 
+    <script type="module" src="./biplot.js"></script> 
+    <script type="module" src="./mdsData.js"></script> 
+    <script type="module" src="./mdsAttr.js"></script>
+
+</head>
+<body>
+
+    <h1>
+        CSE 332 PROJECT 3 <br>
+        Adam Feng
+    </h1>
+    <div>
+    <div>
+        Choose Visualization:
+        <button id="corMat">Correlation Matrix</button>
+        <button id="scatterMat">Scatter Plot Matrix</button>
+        <button id="para">Parallel Coordinates</button>
+        <button id="PCA">PCA & Scree Plot</button>
+        <button id="Bi">Biplot</button>
+        <button id="data">MDS Data</button>
+        <button id="attr">MDS Attributes</button>
+        <!-- <button id="sources">Sources</button> -->
+    </div>
+    <div id="chart-container"></div>
+    <div id="chart-container2"></div>
+    <div id="tooltip"></div>
+
+    <script type="module">
+      import showCorMatrix from './corMatrix.js';
+      import displayScatterMatrix from './scatterMatrix.js'
+      import showPara from './parallelCoords.js'
+      import showEverything from './PCA.js'
+      import showBi from './biplot.js'
+      import showData from './mdsData.js'
+      import showAttr from './mdsAttr.js'
+
+      window.onload = function(){
+          document.getElementById("corMat").onclick = function(){
+              document.getElementById("chart-container").innerHTML = '';
+              document.getElementById("chart-container2").innerHTML = '';
+              showCorMatrix();
+          };
+
+          document.getElementById("scatterMat").onclick = function(){
+              document.getElementById("chart-container").innerHTML =``;
+              document.getElementById("chart-container2").innerHTML =``;
+              displayScatterMatrix();
+          };
+
+          document.getElementById("para").onclick = function(){
+             document.getElementById("chart-container").innerHTML =``;
+             document.getElementById("chart-container2").innerHTML =``;
+             showPara();
+          };
+
+          document.getElementById("PCA").onclick = function(){
+            document.getElementById("chart-container").innerHTML =``;
+            document.getElementById("chart-container2").innerHTML =``;
+            showEverything();
+          };
+
+          document.getElementById("Bi").onclick = function(){
+            document.getElementById("chart-container").innerHTML =``;
+            document.getElementById("chart-container2").innerHTML =``;
+            showBi();
+          };
+
+          document.getElementById("data").onclick = function(){
+            document.getElementById("chart-container").innerHTML =``;
+            document.getElementById("chart-container2").innerHTML =``;
+            showData();
+          };
+
+          document.getElementById("attr").onclick = function(){
+            document.getElementById("chart-container").innerHTML =``;
+            document.getElementById("chart-container2").innerHTML =``;
+            showAttr();
+          };
+
+    
+
+          document.getElementById("sources").onclick = function(){
+              document.getElementById("graph").innerHTML =``;
+              displaySources();
+          };
+      }
+      
+    </script>
+</body>
+</html>

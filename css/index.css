@@ -1,0 +1,85 @@
+.tooltip {
+    display:inline;
+    position: absolute; 
+    visibility: hidden; 
+    background: white; 
+    border: 1px solid black; 
+    pointer-events: none;
+    padding: 5px; 
+    border-radius: 5px;
+}
+
+.axis text {
+    font-size: 12px;
+}
+.point {
+    fill: steelblue;
+    opacity: 0.7;
+}
+.arrow {
+    stroke: red;
+    stroke-width: 2;
+}
+.label {
+    font-size: 12px;
+    fill: red;
+}
+
+#tooltip {
+    display:inline;
+    position: absolute; 
+    visibility: hidden; 
+    background: white; 
+    border: 1px solid black; 
+    pointer-events: none;
+    padding: 5px; 
+    border-radius: 5px;
+}
+
+#chart-container{
+    display: flex;
+    align-items: flex-start;
+}
+
+
+svg{
+    font: 10px sans-serif;
+    padding: 10px;
+  }
+
+  .axis,
+  .frame {
+    shape-rendering: crispEdges;
+  }
+
+  .axis line {
+    stroke: #ddd;
+  }
+
+  .axis path {
+    display: none;
+  }
+
+  .cell text {
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  .frame {
+    fill: none;
+    stroke: #aaa;
+  }
+
+  circle {
+    fill-opacity: .7;
+  }
+
+  circle.hidden {
+    fill: #ccc !important;
+  }
+
+  .extent {
+    fill: #000;
+    fill-opacity: .125;
+    stroke: #fff;
+  }
