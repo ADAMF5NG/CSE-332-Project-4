@@ -264,8 +264,6 @@ function updateGraph(varName, data, colorMap, colorChangeMap){
                     document.getElementById('color-picker').addEventListener('input', function(event) {
                         const level = d.value;
                         const colorChanged = event.target.value;
-
-                        console.log
     
                         if (!colorMap[level]) {
                             const index = Object.keys(colorMap).length;
