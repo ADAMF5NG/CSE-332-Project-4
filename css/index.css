@@ -9,6 +9,16 @@
     border-radius: 5px;
 }
 
+#tooltipColor {
+  display:inline;
+  position: absolute; 
+  visibility: hidden; 
+  background: white; 
+  border: 1px solid black; 
+  padding: 5px; 
+  border-radius: 5px;
+}
+
 .axis text {
     font-size: 12px;
 }

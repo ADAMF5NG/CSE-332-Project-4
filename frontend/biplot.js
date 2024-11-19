@@ -1,6 +1,6 @@
 import { showPCA } from "./PCA.js"; 
 
-export default function showBi(){
+export default function showBi(biArr, colorChangeMap){
     console.log("IN HERE")
     
 const margin = {top: 30, right: 30, bottom: 30, left: 50},
@@ -24,9 +24,8 @@ height = 600 - margin.top - margin.bottom;
 
         Promise.all([
             d3.csv('../pandas/dataFromPython/pca_result.csv'), 
-            d3.csv('../pandas/dataFromPython/biPlot.csv')     
+            d3.csv('../pandas/dataFromPython/biPlot.csv')
         ]).then(([pcaData, vectorData]) => {
-            
             
             pcaData.forEach(d => {
                 d.PC1 = +d.PC1;
@@ -38,7 +37,7 @@ height = 600 - margin.top - margin.bottom;
                 d.PC2 = +d.PC2;
             });
             
-            showPCA(svg, pcaData);
+            showPCA(svg, pcaData, biArr, colorChangeMap);
 
             xVector.domain([d3.min(vectorData, d => d.PC1) - 0.5, d3.max(vectorData, d => d.PC1) + 0.5]);
             yVector.domain([d3.min(vectorData, d => d.PC2) - 0.5, d3.max(vectorData, d => d.PC2) + 0.5]);

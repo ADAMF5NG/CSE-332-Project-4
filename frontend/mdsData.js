@@ -1,13 +1,40 @@
-export default function showData(){
+export default function showData(mdsArr, colorChangeMap){
 
-d3.csv("../pandas/dataFromPython/MDS(Data).csv").then(function(data) {
+let defaultColor = "#69b3a2"
+
+Promise.all([
+    d3.csv("../pandas/dataFromPython/MDS(Data).csv"),
+    d3.csv('../pandas/clustered_data.csv?timestamp=' + new Date().getTime())
+]).then(([data, clusterData]) => {
+      console.log(data); 
+      if (data.length === 0){
+          console.log("Data is empty");
+      }
+
+
+    console.log(clusterData)
+    console.log(data)
+
+    const clusterColors = d3.scaleOrdinal()
+    .domain([0, 1, 2]) 
+    .range(["#1f77b4", "#ff7f0e", "#2ca02c"]);
+
+    // clusterData.forEach(d => {
+    //     //console.log(clusterColors(d.Cluster))
+    //     d.color = clusterColors(d.Cluster); // Map cluster to a color
+    // });
+
+    data.forEach((d, i) => {
+    const cluster = clusterData[i]; // Assume same order
+    d.Cluster = cluster.Cluster;   // Add cluster label
+    d.color = clusterColors(cluster.Cluster); // Assign color based on cluster
+    });
 
     const margin = {top: 30, right: 200, bottom: 150, left: 200},
     width = 1200 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom;
     let marginLeft = 180;
 
-    console.log(data)
     const tooltip = document.getElementById("tooltip");
 
     const svg = d3.select("#chart-container")
@@ -54,7 +81,7 @@ d3.csv("../pandas/dataFromPython/MDS(Data).csv").then(function(data) {
         .style("fill", "black")
         .attr("transform", "rotate(-90)");
 
-    svg.append('g')
+    mdsArr = svg.append('g')
         .selectAll("dot")
         .data(data)
         .enter()
@@ -63,35 +90,70 @@ d3.csv("../pandas/dataFromPython/MDS(Data).csv").then(function(data) {
         .attr("cy", d => y(+d.Dim2))
         .attr("r", 5)
         .attr('opacity', '.55')
-        .style("fill", "#69b3a2")
+        .style("fill", d => {
+            console.log("COLOR", d, d.color)
+            return d.color})
         
         //used source to create on hover tooltip popup: https://medium.com/@kj_schmidt/show-data-on-mouse-over-with-d3-js-3bf598ff8fc2
         .on("mouseover", function(event, d){
-            let num =  "Dim 1: " + (+d.Dim1).toFixed(2) + ", Dim 2: " + (+d.Dim2).toFixed(2);
+            let num =  "Dim 1: " + (+d.Dim1).toFixed(2) + ", Dim 2: " + (+d.Dim2).toFixed(2) + ", Cluster Group: " + (+d.Cluster + 1);
             console.log(num);
             tooltip.innerHTML = `${num}`;
             tooltip.style.left=(event.pageX + 15)  + "px";
             tooltip.style.top= (event.pageY - 28)  + "px";
             tooltip.style.visibility="visible";
 
+            if (colorChangeMap && colorChangeMap.size > 0) {
+                mdsArr.each(function (d, i) {
+                    let circleColor = defaultColor; // Default color
+                    colorChangeMap.forEach((indices, color) => {
+                        if (indices.includes(i)) {
+                            circleColor = color; // Use the matching color for the index
+                        }
+                    });
+                    d3.select(this).style("fill", circleColor);
+                });
+            }
+
             d3.select(this)
                 .transition()
                 .duration(300)
                 .attr('opacity', '.85')
-                .style('fill', '#D397F8') 
                 .attr('stroke', 'black')
                 .attr("r", 15)
                 .attr('stroke-width', 2);
             })
             .on("mouseout", function(event, d) {
             //console.log(arcGenerator);
+
+            if (colorChangeMap && colorChangeMap.size > 0) {
+                mdsArr.each(function (d, i) {
+                    let circleColor = defaultColor; // Default color
+                    colorChangeMap.forEach((indices, color) => {
+                        if (indices.includes(i)) {
+                            circleColor = color; // Use the matching color for the index
+                        }
+                    });
+                    d3.select(this).style("fill", circleColor);
+                });
+            }
                 d3.select(this)
                     .transition()
                     .duration(500)
-                    .style("fill", "#69b3a2")
                     .attr('stroke', 'none')
                     .attr("r", 5)
                 tooltip.style.visibility="hidden";
             });
+            if (colorChangeMap && colorChangeMap.size > 0) {
+                mdsArr.each(function (d, i) {
+                    let circleColor = defaultColor; // Default color
+                    colorChangeMap.forEach((indices, color) => {
+                        if (indices.includes(i)) {
+                            circleColor = color; // Use the matching color for the index
+                        }
+                    });
+                    d3.select(this).style("fill", circleColor);
+                });
+            }
 });
 }
