@@ -56,7 +56,6 @@ export default function displayBar(colorMap, colorChangeMap){
                 <option value="Name">Name</option>
                 <option value="Gender">Gender</option>
                 <option value="Representation">Representation</option>
-                <option value="Competition">Competition</option>
                 <option value="Last Round">Last Round</option>
                 <option value="Rank">Rank</option>
                 <option value="Last Round Single Time">Last Round Single Time</option>
@@ -265,6 +264,8 @@ function updateGraph(varName, data, colorMap, colorChangeMap){
                     document.getElementById('color-picker').addEventListener('input', function(event) {
                         const level = d.value;
                         const colorChanged = event.target.value;
+
+                        console.log
     
                         if (!colorMap[level]) {
                             const index = Object.keys(colorMap).length;
